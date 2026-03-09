@@ -1,3 +1,7 @@
+// Name: Hyab Isayas
+// Game title: What I did last week
+// Hours: 4+6+
+
 let config = {
     type: Phaser.AUTO,
     width: 640,

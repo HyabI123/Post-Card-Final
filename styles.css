@@ -1,0 +1,11 @@
+/* Made a CSS file to make life easier and also I dislike in-line css :/ */
+
+/* making post-card go on middle of screen*/
+body {
+    background-color: beige;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
