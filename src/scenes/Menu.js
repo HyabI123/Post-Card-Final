@@ -28,6 +28,7 @@ class Menu extends Phaser.Scene  //creates a class called "Menu" which extends P
         this.load.audio('sfx-select', './assets/sfx-select.wav')
         this.load.audio('sfx-explosion', './assets/sfx-explosion.wav')
         this.load.audio('sfx-shot', './assets/sfx-shot.wav')
+        this.load.audio('sfx-portal', './assets/dragon-studio-sci-fi-portal-jump-01-416163.mp3')
       }
 
       create() {
@@ -58,16 +59,22 @@ class Menu extends Phaser.Scene  //creates a class called "Menu" which extends P
         keyLEFT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.LEFT)
         keyRIGHT = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.RIGHT)
     
+        this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.PLUS).on('down', () => {
+          this.scene.start('islandScene')
+      })
+
         //when player clicks down
         this.input.on('pointerdown', () => {
           //increment click counter 
           this.clickCount++
           console.log("Player has clicked " + this.clickCount + " times")
-          //if click count becomes 17, 
-          if (this.clickCount >= 17) 
-            {
-              this.scene.start('islandScene')
-          }
+          //if click count becomes >= 17, play the sound after a short delay
+          if (this.clickCount >= 17) {
+            this.sound.play('sfx-portal')
+            this.time.delayedCall(1000, () => {})
+                this.scene.start('islandScene')
+            
+        }
 
           if (!this.isFlipped && !this.hasSeenBack) //if the card hasnt been flipped and the player hasnt seen the back
           {
