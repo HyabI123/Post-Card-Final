@@ -37,6 +37,10 @@ class Menu extends Phaser.Scene  //creates a class called "Menu" which extends P
         //bool. var. to check if the back of the post-card has been seen
         this.hasSeenBack = false
 
+        //counter for click count:
+        this.clickCount = 0
+
+
         //adding both front and back card and scaling it for now since images weren't scaled right when I made them
         this.frontCard = this.add.image(game.config.width/2, game.config.height/2, 'frontcard').setOrigin(0.5).setDisplaySize(game.config.width, game.config.height)
 
@@ -56,6 +60,15 @@ class Menu extends Phaser.Scene  //creates a class called "Menu" which extends P
     
         //when player clicks down
         this.input.on('pointerdown', () => {
+          //increment click counter 
+          this.clickCount++
+          console.log("Player has clicked " + this.clickCount + " times")
+          //if click count becomes 17, 
+          if (this.clickCount >= 17) 
+            {
+              this.scene.start('islandScene')
+          }
+
           if (!this.isFlipped && !this.hasSeenBack) //if the card hasnt been flipped and the player hasnt seen the back
           {
               //change isFlipped to true so we know it has been flipped
