@@ -4,8 +4,14 @@ class Island extends Phaser.Scene {
     }
 
     preload() {
+        //assets
         this.load.image('island', './assets/island-background.png')
         this.load.image('propeller', './assets/propeller_island.png')
+        this.load.image('starryNight', './assets/starry_night.png')
+
+        //audio
+        this.load.audio('sfx-ding', './assets/dragon-studio-ding-402325.mp3')
+        this.load.audio('sfx-portal', './assets/dragon-studio-sci-fi-portal-jump-01-416163.mp3')
     }
 
     create() {
@@ -30,7 +36,15 @@ class Island extends Phaser.Scene {
         this.propeller.on('pointerdown', () => {
             this.propeller.setVisible(false)
             this.partsFound++
+            this.sound.play('sfx-ding')
             this.partsText.setText('Parts: ' + this.partsFound + '/5')
+            if (this.partsFound >= 5) //if all parts are found, go to starScene
+            {
+                this.sound.play('sfx-portal')
+                this.time.delayedCall(1000, () => {
+                    this.scene.start('starScene')
+                })
+            }
             })
 
         //+X IS LEFT -X IS RIGHT, +Y IS DOWN, -Y IS UP
@@ -47,10 +61,24 @@ class Island extends Phaser.Scene {
                 if (!this.clickedSpots[index]) {
                     this.clickedSpots[index] = true
                     this.partsFound++
+                    this.sound.play('sfx-ding')
                     this.partsText.setText('Parts: ' + this.partsFound + '/5')
+                    
+                    if (this.partsFound >= 5) //if all parts are found, go to starScene
+                    {
+                        this.sound.play('sfx-portal')
+                        this.time.delayedCall(1000, () => {
+                            this.scene.start('starScene')
+                        })
+                    }
+
                 }
             })
+
+
         })
+
+
 
     }
 
