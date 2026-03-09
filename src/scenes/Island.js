@@ -8,6 +8,7 @@ class Island extends Phaser.Scene {
         this.load.image('island', './assets/island-background.png')
         this.load.image('propeller', './assets/propeller_island.png')
         this.load.image('starryNight', './assets/starry_night.png')
+        this.load.image('ladybug', './assets/evil_ladybug.png')
 
         //audio
         this.load.audio('sfx-ding', './assets/dragon-studio-ding-402325.mp3')
