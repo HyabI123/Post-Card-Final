@@ -1,6 +1,7 @@
 /* Made a CSS file to make life easier and also I dislike in-line css :/ */
 
-/* making post-card go on middle of screen*/
+/* centering the phaser canvas on the screen  */
+
 body {
     background-color: beige;
     display: flex;
@@ -9,3 +10,65 @@ body {
     height: 100vh;
     margin: 0;
 }
+
+/* Below is code I planned on using with HTML but decided to stick to having EVERYTHING in phaser due to complications */
+
+/* narration page body styles
+.narration-body {
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+    padding: 20px;
+}
+
+/* narration page paragraph styles 
+
+.narration-body p {
+    max-width: 600px;
+    text-align: center;
+}
+
+/* typing animation text style 
+
+.text1 {
+    display: inline-block;
+    white-space: nowrap;
+    overflow: hidden;
+    font-family: "Palatino Linotype", Palatino, serif;
+    letter-spacing: 1px;
+    font-size: larger;
+    color: #3a2424;
+    opacity: 0;
+    animation: 
+      typing 2.5s steps(40, end) forwards,
+      fadeIn 0.01s forwards;
+    animation-delay: 0s, 0s; 
+}
+
+/* link styles inside typing animation text 
+
+.text1 a {
+    color: #6b3e2e;
+    text-decoration: underline;
+    font-weight: bold;
+}
+
+/* link hover styles 
+.text1 a:hover {
+    color: #9b4e2e;
+}
+
+/* typing effect keyframes - reveals text from left to right 
+@keyframes typing {
+    from { max-width: 0ch; }
+    to { max-width: 300ch; }
+}
+
+/* fade in keyframes - makes text visible 
+@keyframes fadeIn {
+    to { opacity: 1; }
+} 
+*/
