@@ -19,9 +19,7 @@ class Island extends Phaser.Scene {
         //start off scene as black
         this.cameras.main.setBackgroundColor('#000000')
         this.sound.play('sfx-portal')
-    
-        //adding images
-    
+        
         //after a second, add the island image
         this.time.delayedCall(1000, () => {
             this.add.image(game.config.width/2, game.config.height/2, 'island').setOrigin(0.5).setDisplaySize(game.config.width, game.config.height)
@@ -36,6 +34,7 @@ class Island extends Phaser.Scene {
                 color: '#ffffff'
             }).setOrigin(1, 0)
     
+
             //when the pointer is down, make the visibility false and add to parts found text
             this.propeller.on('pointerdown', () => {
                 this.propeller.setVisible(false)
@@ -59,6 +58,7 @@ class Island extends Phaser.Scene {
                 { x: 600, y: 300 },  // sand crack
             ]
     
+            //hitboxes
             spots.forEach((spot, index) => {
                 let hitbox = this.add.circle(spot.x, spot.y, 40, 0xff0000, 0.5).setInteractive()
                 hitbox.on('pointerdown', () => {
@@ -79,9 +79,27 @@ class Island extends Phaser.Scene {
                     }
                 })
             })
-        })
-    }
+        
+            //so text doesnt show before narration
+            this.time.delayedCall(10000, () => {
+            //†ext for player instructions
+
+                })
     
+
+        //after the player is on the island for 3 seconds, show the second narration scene
+        this.time.delayedCall(2000, () => {
+            this.scene.pause()
+            this.scene.launch('narration2Scene')
+        })
+
+
+
+        })
+
+ 
+    }
+
     update() {
 
     }
