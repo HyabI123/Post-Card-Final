@@ -21,7 +21,7 @@ class Narration2 extends Phaser.Scene
         }).setOrigin(0.5)
 
         //prompt text - hidden until narration is done
-        this.promptText = this.add.text(game.config.width/2, game.config.height/2 + 120, 'Click to find the parts', {
+        this.promptText = this.add.text(game.config.width/2, game.config.height/2 + 220, 'Click to find the parts', {
             fontFamily: 'Georgia, serif',
             fontSize: '16px',
             color: '#6b3e2e'
@@ -50,19 +50,29 @@ class Narration2 extends Phaser.Scene
         }
 
         //start the narration sequence
-        typeChunk('Last tuesday I went to go fly my fighter jet', 750, () => {
-            typeChunk(', you know', 500, () => {
-                typeChunk(', the usual.\n\n', 750, () => {
-                    typeChunk('When all of a sudden it ended up malfunctioning.', 1750, () => {
-                        typeChunk("\n\nI ended up on this abandoned island near Hawaii and had to find the jet's parts to put it back together.", 0, () => {
-                            this.narrationDone = true
-                            this.promptText.setVisible(true)
-                        })
-                    })
-                })
-            })
+        typeChunk('Last Tuesday I went to go fly my fighter jet', 750, () => {
+        typeChunk(', you know', 500, () => {
+        typeChunk(', the usual.\n\n', 750, () => {
+        typeChunk('When all of a sudden it ended up malfunctioning.', 1750, () => {
+        typeChunk("\n\nI ended up on this island near Hawaii I've been to before and had to find the jet's parts to put it back together", 5000, () => {
+            typeChunk("\n\nBut something felt", 1500, () => {
+            typeChunk(".", 1500, () => {
+            typeChunk(".", 1500, () => {
+            typeChunk(".", 1500, () => {
+            typeChunk(" off", 0, () => {
+            this.narrationDone = true
+            this.promptText.setVisible(true)
+                                        })
+                                        })
+                                        })
+                                        })
+                                        })
         })
-
+        })
+        })
+        })
+        })
+        
         //click to return to island once typing is done
         this.input.on('pointerdown', () => {
             if (this.narrationDone) {

@@ -5,7 +5,8 @@ class Island extends Phaser.Scene {
 
     preload() {
         //assets
-        this.load.image('island', './assets/island-background.png')
+        this.load.image('islandFake', './assets/island-background-fake.png')
+        this.load.image('islandReal', './assets/island-background.png')
         this.load.image('propeller', './assets/propeller_island.png')
         this.load.image('starryNight', './assets/starry_night.png')
         this.load.image('ladybug', './assets/evil_ladybug.png')
@@ -20,10 +21,26 @@ class Island extends Phaser.Scene {
         this.cameras.main.setBackgroundColor('#000000')
         this.sound.play('sfx-portal')
         
+        //delcaring vars.
+        this.isIslandFlipped = false
+        this.propellerFound = false
+
+        //key inputs
+        this.keyF = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.F)
+
         //after a second, add the island image
         this.time.delayedCall(1000, () => {
-            this.add.image(game.config.width/2, game.config.height/2, 'island').setOrigin(0.5).setDisplaySize(game.config.width, game.config.height)
+            this.islandImage = this.add.image(game.config.width/2, game.config.height/2, 'islandFake').setOrigin(0.5).setDisplaySize(game.config.width, game.config.height)
+
+            //Prompt user to click F to flip card
+            this.flipPrompt = this.add.text(game.config.width/2, borderPadding*2, 'Click F to flip card, left click the differences!', {
+                fontFamily: 'Georgia, serif',
+                fontSize: '30px',
+                color: '#FC2F05'
+            }).setOrigin(0.5)
+
             this.propeller = this.add.image(game.config.width - 50, 30, 'propeller').setOrigin(0.5).setInteractive()
+            this.propeller.setVisible(false) //make propeller invisible by default
             this.partsFound = 0
             this.clickedSpots = [] //empty array (dict? list? not sure what its called in js i always get it mixed up)
     
@@ -38,44 +55,50 @@ class Island extends Phaser.Scene {
             //when the pointer is down, make the visibility false and add to parts found text
             this.propeller.on('pointerdown', () => {
                 this.propeller.setVisible(false)
+                this.propellerFound = true
                 this.partsFound++
                 this.sound.play('sfx-ding')
                 this.partsText.setText('Parts: ' + this.partsFound + '/5')
-                if (this.partsFound >= 5) //if all parts are found, go to starScene
-                {
-                    this.sound.play('sfx-portal')
-                    this.time.delayedCall(1000, () => {
-                        this.scene.start('starScene')
-                    })
-                }
+
+                this.scene.pause()
+                this.scene.launch('narration3Scene')
             })
     
             //+X IS LEFT -X IS RIGHT, +Y IS DOWN, -Y IS UP
+            //visible hitbox for debugging/testing purposes:
             const spots = [
-                { x: 80, y: 225 },   // top left bush
-                { x: 65, y: 340 },   // bottom left tree
-                { x: 320, y: 440 },  // river bubbles
-                { x: 600, y: 300 },  // sand crack
+                { x: 500, y: 425, radius: 50 },   // middle bush
+                { x: 80, y: 340, radius: 60},     // tree
+                { x: 850, y: 750, radius: 100},   // river bubbles
+                { x: 1243, y: 472, radius: 40 },  // sand crack
             ]
     
-            //hitboxes
+            //hitboxes, the index order is based on the order in const spots []
             spots.forEach((spot, index) => {
-                let hitbox = this.add.circle(spot.x, spot.y, 40, 0xff0000, 0.5).setInteractive()
+                let hitbox = this.add.circle(spot.x, spot.y, spot.radius, 0xff0000, 0.5).setInteractive()
                 hitbox.on('pointerdown', () => {
                     if (!this.clickedSpots[index]) {
                         this.clickedSpots[index] = true
                         this.partsFound++
                         this.sound.play('sfx-ding')
                         this.partsText.setText('Parts: ' + this.partsFound + '/5')
-                        
-                        if (this.partsFound >= 5) //if all parts are found, go to starScene
-                        {
-                            this.sound.play('sfx-portal')
-                            this.time.delayedCall(1000, () => {
-                                this.scene.start('starScene')
-                            })
+            
+                        if (index === 0) {   // bush
+                            this.scene.pause()
+                            this.scene.launch('narration4Scene')
                         }
-    
+                        else if (index === 1) {   // tree
+                            this.scene.pause()
+                            this.scene.launch('narration5Scene')
+                        }
+                        else if (index === 2) {   // bubbles
+                            this.scene.pause()
+                            this.scene.launch('narration6Scene')
+                        }
+                        else if (index === 3) {   // sand crack
+                            this.scene.pause()
+                            this.scene.launch('narration7Scene')
+                        }
                     }
                 })
             })
@@ -101,6 +124,24 @@ class Island extends Phaser.Scene {
     }
 
     update() {
+        //Source for Just down function: https://phaser.io/examples/v3.55.0/input/keyboard/view/just-down 
+
+        //if user is pressing F, change vars 
+        if (Phaser.Input.Keyboard.JustDown(this.keyF)) {
+            this.isIslandFlipped = !this.isIslandFlipped
+        
+            //if island is flipped, show real island, if not, show fake island 
+            if (this.isIslandFlipped) 
+            {
+                this.islandImage.setTexture('islandReal')
+                this.propeller.setVisible(!this.propellerFound) 
+            } 
+            else 
+            {
+                this.islandImage.setTexture('islandFake')
+                this.propeller.setVisible(false) //hide propeller on fake island
+            }
+        }
 
     }
 }
