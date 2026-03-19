@@ -7,7 +7,7 @@ let config = {
     type: Phaser.AUTO,
     width: 1500,
     height: 750,
-    scene: [ Menu, Play, Island, Star, Narration1, Narration2, Narration3, Narration4, Narration5, Narration6]
+    scene: [ Menu, Play, Island, Star, Narration1, Narration2, Narration3, Narration4, Narration5, Narration6, Narration7, Narration8, Narration9]
   }
 
 

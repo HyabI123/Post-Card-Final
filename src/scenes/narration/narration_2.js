@@ -73,9 +73,12 @@ class Narration2 extends Phaser.Scene
         })
         })
         
-        //click to return to island once typing is done
+        //click to return to island once typing is done and let text on island visible
         this.input.on('pointerdown', () => {
             if (this.narrationDone) {
+                const islandScene = this.scene.get('islandScene')
+                islandScene.flipPrompt.setVisible(true)
+        
                 this.scene.stop()
                 this.scene.resume('islandScene')
             }

@@ -51,8 +51,19 @@ class Narration3 extends Phaser.Scene
         //click to return to island once typing is done
         this.input.on('pointerdown', () => {
             if (this.typingDone) {
-                this.scene.stop()
-                this.scene.resume('islandScene')
+                const islandScene = this.scene.get('islandScene')
+        
+                //if parts found on the island is 5 or more (for some reason, bc setting it to = doesn't work? idk i js tried it and it works...), go to narration8
+                if (islandScene.partsFound >= 5) 
+                {
+                    this.scene.stop('islandScene')
+                    this.scene.start('narration8Scene')
+                } 
+                else 
+                {
+                    this.scene.stop()
+                    this.scene.resume('islandScene')
+                }
             }
         })
     }
