@@ -8,7 +8,7 @@ class Island extends Phaser.Scene {
         this.load.image('islandFake', './assets/island-background-fake.png')
         this.load.image('islandReal', './assets/island-background.png')
         this.load.image('propeller', './assets/propeller_island.png')
-        this.load.image('starryNight', './assets/starry_night.png')
+        this.load.image('starrynight', './assets/starry_night.png')
         this.load.image('ladybug', './assets/evil_ladybug.png')
 
         //audio
@@ -115,17 +115,11 @@ class Island extends Phaser.Scene {
             this.scene.pause()
             this.scene.launch('narration2Scene')
         })
-
-
-
         })
-
- 
     }
 
     update() {
-        //Source for Just down function: https://phaser.io/examples/v3.55.0/input/keyboard/view/just-down 
-
+        //Source for just-down function: https://phaser.io/examples/v3.55.0/input/keyboard/view/just-down 
         //if user is pressing F, change vars 
         if (Phaser.Input.Keyboard.JustDown(this.keyF)) {
             this.isIslandFlipped = !this.isIslandFlipped
