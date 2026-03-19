@@ -64,6 +64,13 @@ class Menu extends Phaser.Scene  //creates a class called "Menu" which extends P
             this.scene.start('islandScene')
         })
 
+        //developer shortcut to get to starScene right off rip
+        this.input.keyboard.on('keydown', (event) => {
+          if (event.key === '|') {
+              this.scene.start('starScene')
+          }
+      })
+
         //when player clicks down
         this.input.on('pointerdown', () => {
             //increment click counter 

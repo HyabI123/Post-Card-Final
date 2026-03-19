@@ -6,7 +6,6 @@ class Narration9 extends Phaser.Scene
 
     preload() {
         // audio
-        this.load.audio('airplane-shot', './assets/airplane_gettingShot.mp3')
         this.load.audio('flies-sound', './assets/flies_sound.mp3')
     }
 
@@ -33,10 +32,9 @@ class Narration9 extends Phaser.Scene
             color: '#ffffff'
         }).setOrigin(0.5).setVisible(false)
 
-        // sound objects
-        this.flightSound1 = this.sound.add('airplane-shot')
-        this.flightSound2 = this.sound.add('airplane-shot')
+        // flies sound
         this.fliesSound = this.sound.add('flies-sound')
+        this.fliesSound.play()
 
         // helper function for chunked text
         const typeChunk = (chunk, waitTime, nextStep) => {
@@ -59,34 +57,12 @@ class Narration9 extends Phaser.Scene
             })
         }
 
-        // play first airplane audio
-        this.flightSound1.play()
-
-        // halfway through the first loop, show this text
-        const durationSeconds = this.flightSound1.totalDuration || this.flightSound1.duration || 4
-        const halfDelay = durationSeconds * 500
-
-        this.time.delayedCall(halfDelay, () => {
-            this.narrationText.setText('Is something shooting at me??')
-        })
-
-        // after first loop finishes, play it one more time
-        this.flightSound1.once('complete', () => {
-            this.flightSound2.play()
-
-            // after second loop finishes, play flies sound and type reaction
-            this.flightSound2.once('complete', () => {
-                this.fliesSound.play()
-                this.narrationText.setText('')
-                this.displayed = ''
-
-                typeChunk('oh', 750, () => {
-                    typeChunk(' my', 750, () => {
-                        typeChunk(' god...', 750, () => {
-                            this.typingDone = true
-                            this.promptText.setVisible(true)
-                        })
-                    })
+        // type the reaction
+        typeChunk('oh', 750, () => {
+            typeChunk(' my', 750, () => {
+                typeChunk(' god...', 750, () => {
+                    this.typingDone = true
+                    this.promptText.setVisible(true)
                 })
             })
         })
@@ -94,20 +70,18 @@ class Narration9 extends Phaser.Scene
         // click to continue to star scene
         this.input.on('pointerdown', () => {
             if (this.typingDone) {
-                if (this.flightSound1) 
-                {
-                    this.flightSound1.stop()
-                }
-                if (this.flightSound2) 
-                {
-                    this.flightSound2.stop()
-                }
-                if (this.fliesSound) 
-                {
+                if (this.fliesSound) {
                     this.fliesSound.stop()
                 }
-        
+
                 this.scene.start('starScene')
+            }
+        })
+
+        // safety stop for audio
+        this.events.on('shutdown', () => {
+            if (this.fliesSound) {
+                this.fliesSound.stop()
             }
         })
     }
