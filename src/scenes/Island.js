@@ -37,7 +37,7 @@ class Island extends Phaser.Scene {
                 fontFamily: 'Georgia, serif',
                 fontSize: '30px',
                 color: '#FC2F05'
-            }).setOrigin(0.5)
+            }).setOrigin(0.5).setVisible(false)
 
             this.propeller = this.add.image(game.config.width - 50, 30, 'propeller').setOrigin(0.5).setInteractive()
             this.propeller.setVisible(false) //make propeller invisible by default
@@ -130,17 +130,16 @@ class Island extends Phaser.Scene {
         if (Phaser.Input.Keyboard.JustDown(this.keyF)) {
             this.isIslandFlipped = !this.isIslandFlipped
         
-            //if island is flipped, show real island, if not, show fake island 
             if (this.isIslandFlipped) 
-            {
-                this.islandImage.setTexture('islandReal')
-                this.propeller.setVisible(!this.propellerFound) 
-            } 
-            else 
-            {
-                this.islandImage.setTexture('islandFake')
-                this.propeller.setVisible(false) //hide propeller on fake island
-            }
+                {
+                    this.islandImage.setTexture('islandReal')
+                    this.propeller.setVisible(false) //hide propeller on real island
+                } 
+                else 
+                {
+                    this.islandImage.setTexture('islandFake')
+                    this.propeller.setVisible(!this.propellerFound) //show propeller on fake island if not found yet
+                }
         }
 
     }
